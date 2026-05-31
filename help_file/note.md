@@ -25,7 +25,7 @@ cp path_file1 path1
 # print working directory
 pwd
 # list all the files
-ls
+ls -a
 # remove a file
 rm file
 # remove a directory
@@ -37,4 +37,12 @@ mkdir directory
 # rename a new file
 mv old_name new_name
 # but if you rename a file to an already existed file, your action could just overwrite the old file, so this is a very dangerous action
+# rm interactive mode -i
+rm -i lesson*
+# alias rm='rm -i' means use rm -i to substitute rm
+# clear order
+ctr + l
+# history order
+history
 ```
+
