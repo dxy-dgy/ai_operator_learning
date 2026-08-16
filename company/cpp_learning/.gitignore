@@ -1,0 +1,6 @@
+# 忽略每周 bin 目录中编译出的文件
+week_*/bin/*
+
+# 保留空的 bin 目录
+!week_*/bin/.gitkeep
+
