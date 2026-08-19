@@ -1,48 +1,47 @@
-#include "Shape.h"
-#include <cmath>
+#ifndef SHAPE_H
+#define SHAPE_H
 
-Shape::Shape(double r) : type(CIRCLE), radius(r), width(0), height(0), cachedArea(0.0), isAreaCached(false) {
-    shapeCount++;
-}
+#include <vector>
+#include <iostream>
 
-Shape::Shape(double w, double h) : type(RECTANGLE), radius(0), width(w), height(h), cachedArea(0.0), isAreaCached(false) {
-    shapeCount++;
-}
+struct Point {
+    double x, y;
+};
 
-Shape::Shape(const std::vector<Point>& v) : type(POLYGON), radius(0), width(0), height(0), vertices(v), cachedArea(0.0), isAreaCached(false) {
-    shapeCount++;
-}
+class Shape {
+private:
+    inline static int shapeCount = 0;
 
-Shape::~Shape() {
-    shapeCount--;
-}
+    enum Type { CIRCLE, RECTANGLE, POLYGON } type;
+    double radius;
+    double width, height;
+    std::vector<Point> vertices;
 
-int Shape::getShapeCount() {
-    return shapeCount;
-}
+    mutable double cachedArea;
+    mutable bool isAreaCached;
 
-double Shape::getArea() const {
-    if (isAreaCached) {         // Cache Hit
-        return cachedArea;
-    }
+public:
+    explicit Shape(double r);
+    explicit Shape(double w, double h);
+    explicit Shape(const std::vector<Point>& v);
 
-    // Cache Miss
-    double area = 0.0;
-    if (type == CIRCLE) {
-        area = 3.14159 * radius * radius;
-    } else if (type == RECTANGLE) {
-        area = width * height;
-    } else if (type == POLYGON) {
-        int n = vertices.size();
-        for (int i = 0; i < n; ++i) {
-            int j = (i + 1) % n;
-            area += (vertices[i].x * vertices[j].y - vertices[j].x * vertices[i].y);
+    ~Shape();
+
+    static int getShapeCount();
+
+    double getArea() const;
+
+    friend std::ostream& operator<<(std::ostream& os, const Shape& shape) {
+        os << "[Shape Info] ";
+        if (shape.type == CIRCLE) {
+            os << "Circle (Radius: " << shape.radius << ")";
+        } else if (shape.type == RECTANGLE) {
+            os << "Rectangle (Width: " << shape.width << ", Height: " << shape.height << ")";
+        } else if (shape.type == POLYGON) {
+            os << "Polygon (Vertices: " << shape.vertices.size() << ")";
         }
-        area = std::abs(area) / 2.0;
+        return os;
     }
+};
 
-    cachedArea = area;
-    isAreaCached = true;
-
-    return cachedArea;
-}
+#endif
