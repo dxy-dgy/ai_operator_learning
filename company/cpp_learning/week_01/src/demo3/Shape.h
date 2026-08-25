@@ -52,4 +52,21 @@ private:
     std::string tag;
 };
 
+class Rectangle final : public Shape<Rectangle> {
+public:
+    Rectangle(double width, double height,
+              std::string tag = "Default Rectangle");
+
+private:
+    // 允许 Shape<Rectangle> 调用下面两个私有实现函数。
+    friend class Shape<Rectangle>;
+
+    [[nodiscard]] double getAreaImpl() const;
+    void printImpl(std::ostream& os) const;
+
+    double width;
+    double height;
+    std::string tag;
+};
+
 #endif

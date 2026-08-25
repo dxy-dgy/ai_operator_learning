@@ -32,6 +32,15 @@ int main() {
         showShape(*shape);
     }
 
+    std::cout << "\n4. The same CRTP interface with another shape...\n";
+    Rectangle rectangle(4.0, 6.0, "CRTP_Rectangle_A");
+    showShape(rectangle);
+
+    // Shape<Circle> 和 Shape<Rectangle> 是不同类型，所以 CRTP 本身
+    // 不提供一个可直接存放不同图形的 vector<Shape>。
+
     std::cout << "\n--- Main ending, objects going out of scope ---\n";
     std::cout << "Total circles in memory: " << Circle::getShapeCount() << '\n';
+    std::cout << "Total rectangles in memory: "
+              << Rectangle::getShapeCount() << '\n';
 }
